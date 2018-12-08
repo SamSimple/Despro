@@ -67,16 +67,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Intent intent= new Intent (MainActivity.this, MenuActivity.class);
                         intent.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        progressDialog.dismiss ();
+
 
 
                     }
                     else{
                         Toast.makeText (getApplicationContext (),task.getException ().getMessage (),Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss ();
                     }
                 }
             });
         }
-        progressDialog.dismiss ();
 
     }
 

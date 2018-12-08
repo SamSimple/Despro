@@ -19,6 +19,22 @@
     android:layout_centerVertical="true">
 
     <EditText
+        android:id="@+id/SignUpName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"/>
+    <EditText
+        android:id="@+id/SignUpAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"/>
+    <EditText
+        android:id="@+id/SignUpNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cellphone Number"
+        android:inputType="number"/>
+    <EditText
         android:id="@+id/SignUpEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +48,8 @@
         android:layout_weight="1"
         android:inputType="textPassword"
         android:hint="Password" />
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
