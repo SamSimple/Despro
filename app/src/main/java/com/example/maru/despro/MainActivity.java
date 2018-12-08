@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (LogPassword.length () < 6) {
             Toast.makeText (MainActivity.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show ();
             LogPassword.requestFocus ();
+        }else if(mAuth.getCurrentUser().isEmailVerified()){
+            Toast.makeText (MainActivity.this, "Please Verify your Email first.", Toast.LENGTH_SHORT).show ();
         } else {
             progressDialog.setMessage ("Logging In...");
             progressDialog.show ();
