@@ -75,15 +75,16 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-
+                        firebaseAuth.getCurrentUser().reload();
                         User user = new User(Name, Age, CpNum, emailAdd, Password);
 
-                        FirebaseDatabase.getInstance().getReference("Users").child(user.name)
+                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ","))
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(UserSignUp.this, "Registered Successfully,   Email Verification sent to "+firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+
+                                    Toast.makeText(UserSignUp.this, "Registered Successfully,   Email Verification sent to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                                     firebaseAuth.getCurrentUser().sendEmailVerification();
                                     firebaseAuth.getCurrentUser().reload();
                                     progressDialog.dismiss();

@@ -27,56 +27,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        findViewById (R.id.TVSignUp).setOnClickListener (this);
-        findViewById (R.id.LogInButton).setOnClickListener (this);
-        progressDialog = new ProgressDialog (this);
-        mAuth = FirebaseAuth.getInstance ();
-        LogEmail= findViewById (R.id.LogInEmail);
-        LogPassword= findViewById (R.id.LogInPassword);
+        findViewById(R.id.TVSignUp).setOnClickListener(this);
+        findViewById(R.id.LogInButton).setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        mAuth = FirebaseAuth.getInstance();
+        LogEmail = findViewById(R.id.LogInEmail);
+        LogPassword = findViewById(R.id.LogInPassword);
+
     }
 
 
     private void userLogin() {
 
-        String emailAdd = LogEmail.getText ().toString ().trim ();
-        String Password = LogPassword.getText ().toString ().trim ();
+        String emailAdd = LogEmail.getText().toString().trim();
+        String Password = LogPassword.getText().toString().trim();
+        if (TextUtils.isEmpty(emailAdd)) {
+            LogEmail.requestFocus();
+            Toast.makeText(MainActivity.this, "Please Enter Email", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(Password)) {
+            LogPassword.requestFocus();
+            Toast.makeText(MainActivity.this, "Please Enter Password", Toast.LENGTH_SHORT).show();
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAdd).matches()) {
+            Toast.makeText(MainActivity.this, "Please Enter a Valid Email", Toast.LENGTH_SHORT).show();
+            LogEmail.requestFocus();
 
-        if (TextUtils.isEmpty (emailAdd)) {
-            LogEmail.requestFocus ();
-            Toast.makeText (MainActivity.this, "Please Enter Email", Toast.LENGTH_SHORT).show ();
-        } else if (TextUtils.isEmpty (Password)) {
-            LogPassword.requestFocus ();
-            Toast.makeText (MainActivity.this, "Please Enter Password", Toast.LENGTH_SHORT).show ();
-        } else if (!Patterns.EMAIL_ADDRESS.matcher (emailAdd).matches ()) {
-            Toast.makeText (MainActivity.this, "Please Enter a Valid Email", Toast.LENGTH_SHORT).show ();
-            LogEmail.requestFocus ();
-
-        } else if (LogPassword.length () < 6) {
-            Toast.makeText (MainActivity.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show ();
-            LogPassword.requestFocus ();
-        }else if(mAuth.getCurrentUser().isEmailVerified()){
-            Toast.makeText (MainActivity.this, "Please Verify your Email first.", Toast.LENGTH_SHORT).show ();
+        } else if (LogPassword.length() < 6) {
+            Toast.makeText(MainActivity.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show();
+            LogPassword.requestFocus();
+        } else if (!mAuth.getCurrentUser().isEmailVerified()) {
+            mAuth.getCurrentUser().reload();
+            Toast.makeText(MainActivity.this, "Please Verify your Email first.", Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.setMessage ("Logging In...");
-            progressDialog.show ();
-            mAuth.signInWithEmailAndPassword (emailAdd, Password).addOnCompleteListener (new OnCompleteListener<AuthResult> () {
+            progressDialog.setMessage("Logging In...");
+            progressDialog.show();
+            mAuth.signInWithEmailAndPassword(emailAdd, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful ()){
-                        Intent intent= new Intent (MainActivity.this, MenuActivity.class);
-                        intent.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                        progressDialog.dismiss ();
+                        progressDialog.dismiss();
 
 
-
-                    }
-                    else{
-                        Toast.makeText (getApplicationContext (),task.getException ().getMessage (),Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss ();
+                    } else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                 }
             });
@@ -86,12 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId ()) {
+        switch (view.getId()) {
             case R.id.TVSignUp:
-                startActivity (new Intent (this, UserSignUp.class));
+                startActivity(new Intent(this, UserSignUp.class));
                 break;
             case R.id.LogInButton:
-                userLogin ();
+                userLogin();
                 break;
         }
 

@@ -16,12 +16,39 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/TvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:textSize="25dp"
+        android:layout_below="@id/section_label"
         />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/TvAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_below="@id/TvUserName"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/TvCp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_below="@id/TvAge"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/TvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_below="@id/TvCp"
+        />
+
+
+
 
 </RelativeLayout>
