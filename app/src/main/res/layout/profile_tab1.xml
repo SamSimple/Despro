@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="Profile">
 
+
     <TextView
         android:id="@+id/section_label"
         android:layout_width="67dp"
@@ -16,15 +17,15 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
     <TextView
-        android:layout_marginTop="20dp"
+
         android:id="@+id/TvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:layout_below="@id/section_label"
+        android:layout_below="@id/profile"
         />
     <TextView
-        android:layout_marginTop="20dp"
+
         android:id="@+id/TvAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
         android:layout_below="@id/TvUserName"
         />
     <TextView
-        android:layout_marginTop="20dp"
+
         android:id="@+id/TvCp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,15 +41,19 @@
         android:layout_below="@id/TvAge"
         />
     <TextView
-        android:layout_marginTop="20dp"
+
         android:id="@+id/TvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:layout_below="@id/TvCp"
         />
-
-
-
+    <ImageView
+        android:layout_below="@id/section_label"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/profile_pic"
+        android:id="@+id/profile"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
