@@ -53,7 +53,7 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 GalIntent = new Intent (Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult (GalIntent,Gallery_Pick);
+                startActivityForResult (Intent.createChooser (GalIntent,"Choose from Gallery"),Gallery_Pick);
             }
         });
 

@@ -16,44 +16,45 @@
         android:text="Profile"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
+
     <TextView
 
         android:id="@+id/TvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
         android:layout_below="@id/profile"
-        />
+        android:textSize="25dp" />
+
     <TextView
 
         android:id="@+id/TvAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
         android:layout_below="@id/TvUserName"
-        />
+        android:textSize="25dp" />
+
     <TextView
 
         android:id="@+id/TvCp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
         android:layout_below="@id/TvAge"
-        />
+        android:textSize="25dp" />
+
     <TextView
 
         android:id="@+id/TvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
         android:layout_below="@id/TvCp"
-        />
+        android:textSize="25dp" />
+
     <ImageView
-        android:layout_below="@id/section_label"
+        android:id="@+id/profile"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/profile_pic"
-        android:id="@+id/profile"
-        android:layout_centerInParent="true"/>
+        android:layout_below="@id/section_label"
+        android:layout_centerInParent="true"
+        android:src="@drawable/profile_pic" />
 
 </RelativeLayout>
