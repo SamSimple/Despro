@@ -1,15 +1,12 @@
 package com.example.maru.despro;
 
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
+public class ProfileActivity extends AppCompatActivity {
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.app.Activity.RESULT_OK;
-
-public class Profile extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance ();
     DatabaseReference mRef = database.getReference ("Users");
     FirebaseAuth mAuth = FirebaseAuth.getInstance ();
