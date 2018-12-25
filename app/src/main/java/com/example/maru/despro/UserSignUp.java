@@ -28,6 +28,7 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
 
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    String Verified,Bedroom = " ",Kitchen = " ",LivingRoom = " ",Toilet = " ",Emergency = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,6 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAdd).matches()) {
             Toast.makeText(UserSignUp.this, "Please Enter a Valid Email", Toast.LENGTH_SHORT).show();
             email.requestFocus();
-
         } else if (password.length() < 6) {
             Toast.makeText(UserSignUp.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show();
             password.requestFocus();
@@ -76,7 +76,8 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         firebaseAuth.getCurrentUser().reload();
-                        User user = new User(Name, Age, CpNum, emailAdd, Password);
+                        Verified = String.valueOf(firebaseAuth.getCurrentUser().isEmailVerified());
+                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified,Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
 
                         FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ","))
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

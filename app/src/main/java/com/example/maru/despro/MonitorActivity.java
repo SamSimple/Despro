@@ -12,6 +12,7 @@ public class MonitorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_monitor);
+        final String uName = getIntent().getStringExtra("UserName");
         profile = findViewById (R.id.button1);
 
         linef = findViewById (R.id.button2);
@@ -20,6 +21,8 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (MonitorActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("UserName",uName);
                 startActivity (intent);
             }
         });
@@ -28,6 +31,8 @@ public class MonitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (MonitorActivity.this, LineFollowerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("UserName",uName);
                 startActivity (intent);
             }
         });
