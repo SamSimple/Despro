@@ -62,7 +62,7 @@ public class LineFollowerActivity extends AppCompatActivity {
     }
 
     public void openColorpicker() {
-        final ColorPicker colorPicker = new ColorPicker(this);
+        ColorPicker colorPicker = new ColorPicker(LineFollowerActivity.this);
         ArrayList<String> colors = new ArrayList<>();
         colors.add("#ff0000");
         colors.add("#0000ff");
