@@ -6,16 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.Random;
+
 public class MonitorActivity extends AppCompatActivity {
-    Button profile, monitor, linef;
+    Button profile, linef;
+    LineGraphSeries<DataPoint> series;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_monitor);
         final String uName = getIntent().getStringExtra("UserName");
         profile = findViewById (R.id.button1);
-
         linef = findViewById (R.id.button2);
+        double y,x;
+        Random random = new Random ();
+        x= random.nextInt(5);
 
         profile.setOnClickListener (new View.OnClickListener () {
             @Override
@@ -36,5 +45,14 @@ public class MonitorActivity extends AppCompatActivity {
                 startActivity (intent);
             }
         });
+
+        GraphView graph = findViewById (R.id.graph);
+        series= new LineGraphSeries<DataPoint> ();
+        for (int i=0; i<500; i++){
+            x=x+.1;
+            y= Math.sin(x);
+            series.appendData(new DataPoint (x,y), true,500);
+        }
+        graph.addSeries (series);
     }
 }
