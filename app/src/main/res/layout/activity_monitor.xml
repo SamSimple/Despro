@@ -27,7 +27,22 @@
         android:text="Line Follower" />
 
     <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="240dp"
+        android:layout_height="353dp" />
+    <ImageView
+        android:id="@+id/temp"
+        android:layout_width="150dp"
+        android:layout_height="300dp"
+        android:src="@transition/trans"
+        android:layout_toRightOf="@id/graph"/>
+
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="450dp"
-        android:id="@+id/graph"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/temp"
+        android:layout_marginEnd="26dp"
+        android:text="shit"
+        android:id="@+id/shit"/>
 </RelativeLayout>
