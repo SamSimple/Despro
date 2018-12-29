@@ -2,9 +2,12 @@ package com.example.maru.despro;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -13,7 +16,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.Random;
 
 public class MonitorActivity extends AppCompatActivity {
-    Button profile, linef;
+    Button profile, linef,shit;
+    ImageView temp;
     LineGraphSeries<DataPoint> series;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +26,18 @@ public class MonitorActivity extends AppCompatActivity {
         final String uName = getIntent().getStringExtra("UserName");
         profile = findViewById (R.id.button1);
         linef = findViewById (R.id.button2);
+        temp=findViewById (R.id.temp);
+        shit=findViewById (R.id.shit);
         double y,x;
         Random random = new Random ();
         x= random.nextInt(5);
+
+        shit.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                ((TransitionDrawable) temp.getDrawable()).startTransition (3000);
+            }
+        });
 
         profile.setOnClickListener (new View.OnClickListener () {
             @Override
