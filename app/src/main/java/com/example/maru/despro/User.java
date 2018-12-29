@@ -16,5 +16,5 @@ public class User {
         this.LivingRoom = livingRoom;
         this.Toilet = toilet;
         this.Emergency = emergency;
-    }
+}
 }

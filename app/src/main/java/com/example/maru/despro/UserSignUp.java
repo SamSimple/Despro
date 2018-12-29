@@ -76,7 +76,7 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
                         Verified = String.valueOf(firebaseAuth.getCurrentUser().isEmailVerified());
                         User user = new User(Name, Age, CpNum, emailAdd, Password,Verified,Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
 
-                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ","))
+                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("Information")
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
