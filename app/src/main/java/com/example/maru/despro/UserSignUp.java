@@ -74,14 +74,15 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
                     if (task.isSuccessful()) {
                         firebaseAuth.getCurrentUser().reload();
                         Verified = String.valueOf(firebaseAuth.getCurrentUser().isEmailVerified());
-                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified,Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
+                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified);
 
-                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("Information")
+                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("PersonalInformation")
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-
+                                    LineFollowerInfo lfInfo = new LineFollowerInfo(Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
+                                    FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("LineFollowerInformation").setValue(lfInfo);
                                     Toast.makeText(UserSignUp.this, "Registered Successfully,   Email Verification sent to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                                     firebaseAuth.getCurrentUser().sendEmailVerification();
                                     firebaseAuth.getCurrentUser().reload();

@@ -48,7 +48,6 @@ public class LineFollowerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
-
                 openColorpicker();
             }
         });
@@ -70,28 +69,26 @@ public class LineFollowerActivity extends AppCompatActivity {
             @Override
             public void onChooseColor(int position, int color) {
                 col = color;
-
-
                 if (pos == 0) {
                     HexColor = String.format("#%06x", (0xFFFFFF) & col);
-                    mRef.child(uName).child("Bedroom").setValue(HexColor);
+                    mRef.child(uName).child("LineFollowerInformation").child("Bedroom").setValue(HexColor);
                 }
                 if (pos == 1) {
                     HexColor = String.format("#%06x", (0xFFFFFF) & col);
-                    mRef.child(uName).child("Kitchen").setValue(HexColor);
+                    mRef.child(uName).child("LineFollowerInformation").child("Kitchen").setValue(HexColor);
                 }
                 if (pos == 2) {
                     HexColor = String.format("#%06x", (0xFFFFFF) & col);
-                    mRef.child(uName).child("LivingRoom").setValue(HexColor);
+                    mRef.child(uName).child("LineFollowerInformation").child("LivingRoom").setValue(HexColor);
                 }
 
                 if (pos == 3) {
                     HexColor = String.format("#%06x", (0xFFFFFF) & col);
-                    mRef.child(uName).child("Toilet").setValue(HexColor);
+                    mRef.child(uName).child("LineFollowerInformation").child("Toilet").setValue(HexColor);
                 }
                 if (pos == 4) {
                     HexColor = String.format("#%06x", (0xFFFFFF) & col);
-                    mRef.child(uName).child("Emergency").setValue(HexColor);
+                    mRef.child(uName).child("LineFollowerInformation").child("Emergency").setValue(HexColor);
                 }
 
             }
@@ -109,7 +106,8 @@ public class LineFollowerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent (LineFollowerActivity.this,MonitorActivity.class);
-        startActivity(intent);
         finish();
+        startActivity(intent);
+
     }
 }

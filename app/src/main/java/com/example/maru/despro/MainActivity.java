@@ -2,8 +2,10 @@ package com.example.maru.despro;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText LogEmail, LogPassword;
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DatabaseReference mRef = database.getReference("Users");
     String emailAdd;
     String Password;
-    String verify = " ";
+    String verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,62 +57,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void userLogin() {
         emailAdd = LogEmail.getText().toString().trim();
         Password = LogPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(emailAdd)) {
-            LogEmail.requestFocus();
-            Toast.makeText(MainActivity.this, "Please Enter Email", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(Password)) {
-            LogPassword.requestFocus();
-            Toast.makeText(MainActivity.this, "Please Enter Password", Toast.LENGTH_SHORT).show();
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAdd).matches()) {
-            Toast.makeText(MainActivity.this, "Please Enter a Valid Email", Toast.LENGTH_SHORT).show();
-            LogEmail.requestFocus();
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                verify = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Verified").getValue());
+                Log.d("wew",verify);
+                if (TextUtils.isEmpty(emailAdd)) {
+                    LogEmail.requestFocus();
+                    Toast.makeText(MainActivity.this, "Please Enter Email", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(Password)) {
+                    LogPassword.requestFocus();
+                    Toast.makeText(MainActivity.this, "Please Enter Password", Toast.LENGTH_SHORT).show();
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAdd).matches()) {
+                    Toast.makeText(MainActivity.this, "Please Enter a Valid Email", Toast.LENGTH_SHORT).show();
+                    LogEmail.requestFocus();
 
-        } else if (LogPassword.length() < 6) {
-            Toast.makeText(MainActivity.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show();
-            LogPassword.requestFocus();
-        } else if (verify.equals("false")) {
-            Toast.makeText(MainActivity.this, "Please Verify your Email first.", Toast.LENGTH_SHORT).show();
-            mAuth.getCurrentUser().reload().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    mRef.addValueEventListener(new ValueEventListener() {
+                } else if (LogPassword.length() < 6) {
+                    Toast.makeText(MainActivity.this, "The Password should be 6 characters and above", Toast.LENGTH_SHORT).show();
+                    LogPassword.requestFocus();
+                } else if (verify.equals("false")) {
+                    Toast.makeText(MainActivity.this, "Please Verify your Email first.", Toast.LENGTH_SHORT).show();
+                    (Objects.requireNonNull(mAuth.getCurrentUser())).reload().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            verify = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("Verified").getValue());
-                            mRef.child(emailAdd.replace(".", ",")).child("Verified").setValue(String.valueOf(mAuth.getCurrentUser().isEmailVerified()));
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        public void onSuccess(Void aVoid) {
+                            mRef.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Verified").setValue(String.valueOf(mAuth.getCurrentUser().isEmailVerified()));
                         }
                     });
 
-                }
-            });
+                } else {
+                    progressDialog.setMessage("Logging In...");
+                    progressDialog.show();
+                    mAuth.signInWithEmailAndPassword(emailAdd, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                progressDialog.dismiss();
+                                Intent intent = new Intent(MainActivity.this, MonitorActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("UserName", emailAdd.replace(".", ","));
+                                finish();
+                                startActivity(intent);
 
-        } else {
-            Log.d("wew", verify);
-            progressDialog.setMessage("Logging In...");
-            progressDialog.show();
-            mAuth.signInWithEmailAndPassword(emailAdd, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Intent intent = new Intent(MainActivity.this, MonitorActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("UserName", emailAdd.replace(".", ","));
-                        startActivity(intent);
-                        progressDialog.dismiss();
-                        finish();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
+                            } else {
+                                Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
     }

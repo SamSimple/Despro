@@ -27,8 +27,8 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mRef = database.getReference("Users");
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String email, name, age, cp, password, verified, uName,bedroom,kitchen,livingroom,toilet,emergency;
-    User user = new User(name, age, cp, email, password, verified,bedroom,kitchen,livingroom,toilet,emergency);
+    String email, name, age, cp, password, verified, uName;
+    User user = new User(name, age, cp, email, password, verified);
     final static int Gallery_Pick = 1;
     Uri uri;
     TextView tvName, tvCp, tvEmail, tvAge;
@@ -43,15 +43,14 @@ public class ProfileActivity extends AppCompatActivity {
         tvCp = (TextView) findViewById(R.id.TvCp);
         tvEmail = (TextView) findViewById(R.id.TvEmail);
         tvAge = (TextView) findViewById(R.id.TvAge);
-        Log.d("Wiw", uName);
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvName.setText(String.valueOf(dataSnapshot.child(uName).child("Name").getValue()));
-                tvCp.setText(String.valueOf(dataSnapshot.child(uName).child("Cp").getValue()));
-                tvEmail.setText(String.valueOf(dataSnapshot.child(uName).child("Email").getValue()));
-                tvAge.setText(String.valueOf(dataSnapshot.child(uName).child("Age").getValue()));
+                tvName.setText(String.valueOf(dataSnapshot.child(uName).child("PersonalInformation").child("Name").getValue()));
+                tvCp.setText(String.valueOf(dataSnapshot.child(uName).child("PersonalInformation").child("Cp").getValue()));
+                tvEmail.setText(String.valueOf(dataSnapshot.child(uName).child("PersonalInformation").child("Email").getValue()));
+                tvAge.setText(String.valueOf(dataSnapshot.child(uName).child("PersonalInformation").child("Age").getValue()));
 
             }
 

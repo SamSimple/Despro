@@ -1,0 +1,26 @@
+Index: app/src/main/java/com/example/maru/despro/UserSignUp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/maru/despro/UserSignUp.java	(date 1546083706534)
++++ app/src/main/java/com/example/maru/despro/UserSignUp.java	(date 1546083706534)
+@@ -74,15 +74,14 @@
+                     if (task.isSuccessful()) {
+                         firebaseAuth.getCurrentUser().reload();
+                         Verified = String.valueOf(firebaseAuth.getCurrentUser().isEmailVerified());
+-                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified);
++                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified,Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
+ 
+-                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("PersonalInformation")
++                        FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("Information")
+                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                             @Override
+                             public void onComplete(@NonNull Task<Void> task) {
+                                 if (task.isSuccessful()) {
+-                                    LineFollowerInfo lfInfo = new LineFollowerInfo(Bedroom,Kitchen,LivingRoom,Toilet,Emergency);
+-                                    FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("LineFollowerInformation").setValue(lfInfo);
++
+                                     Toast.makeText(UserSignUp.this, "Registered Successfully,   Email Verification sent to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                     firebaseAuth.getCurrentUser().sendEmailVerification();
+                                     firebaseAuth.getCurrentUser().reload();
