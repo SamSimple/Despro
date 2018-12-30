@@ -2,53 +2,50 @@ package com.example.maru.despro;
 
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MonitorActivity extends AppCompatActivity {
+
     Button profile, linef, shit;
     ImageView temp;
-    double values[];
-    private static final Random RANDOM = new Random();
-    private LineGraphSeries<DataPoint> series;
-    private int lastX = 0;
-    GraphView graph;
-    int i;
+    TextView heartRate;
+    int dataCount = 0;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference hrRef1 = database.getReference("HeartRateTemporary");
+        hrRef1.removeValue();
         setContentView(R.layout.activity_monitor);
         final String uName = getIntent().getStringExtra("UserName");
         profile = findViewById(R.id.button1);
         linef = findViewById(R.id.button2);
         temp = findViewById(R.id.temp);
         shit = findViewById(R.id.shit);
-
-        graph = findViewById(R.id.graph);
-
-        series = new LineGraphSeries<DataPoint>();
-        graph.addSeries(series);
-        Viewport viewport = graph.getViewport();
-
-        viewport.setXAxisBoundsManual(true);
-
-        viewport.setMinX(0);
-        viewport.setMaxX(20);
-        viewport.setScrollable(true);
-
+        heartRate = findViewById(R.id.heartrate);
 
 
         shit.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +62,7 @@ public class MonitorActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("UserName", uName);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -75,9 +73,12 @@ public class MonitorActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("UserName", uName);
                 startActivity(intent);
+                finish();
             }
         });
 
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("HeartRateTemporary");
 
     }
 
@@ -87,29 +88,69 @@ public class MonitorActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (i = 0; i<20; i++){
-
+                while (true) {
                     runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            addEntry();
-                        }
-                    });
+                                      @Override
+                                      public void run() {
+
+                                          FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                          final DatabaseReference databaseReference = firebaseDatabase.getReference("HeartRateTemporary");
+                                          databaseReference.child(String.valueOf(count)).setValue(1);
+                                          count++;
+                                          final List<Double> HRtemporary = new ArrayList<>();
+                                          Double total = 0.0;
+
+                                          databaseReference.addValueEventListener(new ValueEventListener() {
+                                              @Override
+                                              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                  if(dataSnapshot.getChildrenCount() == 60){
+                                                      int count = 0;
+                                                      for(DataSnapshot ds :dataSnapshot.getChildren()){
+                                                          if(count<60){
+                                                              HRtemporary.add(Double.valueOf(ds.getValue().toString()));
+
+                                                          }
+                                                          else{
+                                                              break;
+                                                          }
+                                                          count++;
+                                                      }
+                                                      if(count == 60){
+
+                                                      }
+                                                  }
+                                              }
+
+                                              @Override
+                                              public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                              }
+                                          });
+
+
+                                          if(HRtemporary.size() == 60){
+                                              for(Double temp : HRtemporary){
+                                                  total += temp;
+                                              }
+                                              total = total/60;
+                                              final Double totalHR = total;
+
+                                              DatabaseReference refHR = firebaseDatabase.getReference("HeartRate");
+                                              refHR.child(String.valueOf(dataCount)).setValue(totalHR);
+                                              dataCount++;
+                                          }
+
+                                      }
+
+                                  }
+                    );
                     try {
                         Thread.sleep(600);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                i = 0;
-
             }
         }).start();
     }
-
-    private void addEntry(){
-         series.appendData(new DataPoint(lastX++,RANDOM.nextDouble()*20d),true,20);
-
-    }
-
 }

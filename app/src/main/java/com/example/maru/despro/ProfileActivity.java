@@ -27,8 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mRef = database.getReference("Users");
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String email, name, age, cp, password, verified, uName;
-    User user = new User(name, age, cp, email, password, verified);
+    String  uName;
     final static int Gallery_Pick = 1;
     Uri uri;
     TextView tvName, tvCp, tvEmail, tvAge;
@@ -94,6 +93,8 @@ public class ProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent (ProfileActivity.this,MonitorActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("UserName", uName);
         startActivity(intent);
         finish();
     }

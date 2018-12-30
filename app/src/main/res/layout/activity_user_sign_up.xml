@@ -51,12 +51,14 @@
 
 
     <Button
+        android:id="@+id/SignUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:id="@+id/SignUpButton"
-        android:text="Register"
-        />
+        android:background="@drawable/buttonshape"
+        android:fontFamily="@font/chango"
+
+        android:text="Register" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -25,23 +25,37 @@
         android:layout_height="120dp"
         android:drawableRight="@drawable/ic_wc"
         android:text="Line Follower" />
-
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/graph"
-        android:layout_width="240dp"
-        android:layout_height="353dp" />
+<TextView
+    android:id="@+id/heartrate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="heartRATE"
+    android:layout_marginTop="100dp"
+    android:layout_marginLeft="50dp"
+    android:textSize="20sp"/>
     <ImageView
-        android:id="@+id/temp"
         android:layout_width="150dp"
         android:layout_height="300dp"
-        android:src="@transition/trans"
-        android:layout_toRightOf="@id/graph"/>
+        android:src="@drawable/temp38"
+        android:layout_toRightOf="@id/heartrate"/>
+     <ImageView
+        android:id="@+id/temp"
+        android:layout_width="151.7dp"
+        android:layout_height="300dp"
+        android:src="@drawable/temp37"
+        android:layout_toRightOf="@id/heartrate"/>
+    <ImageView
+        android:id="@+id/mask"
+        android:layout_width="151.7dp"
+        android:layout_height="300dp"
+        android:src="@drawable/temp36"
+        android:layout_toRightOf="@id/heartrate"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/temp"
+        android:layout_below="@id/temp"
         android:layout_marginEnd="26dp"
         android:text="shit"
         android:id="@+id/shit"/>
