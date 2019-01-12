@@ -59,13 +59,6 @@ public class MonitorActivity extends BaseActivity{
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference("HeartRateTemporary");
 
-        record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(MonitorActivity.this, Record.class);
-                startActivity(intent);finish();
-            }
-        });
     }
 
     @Override

@@ -45,7 +45,7 @@ public class BaseActivity extends AppCompatActivity {
         tvName = (TextView) nView.findViewById(R.id.NameNall);
         tvName.setText(name+"\n"+email+"\n"+cp+"\n"+age);
         Picasso.with(this).load(avatarURL).into(imageView);
-
+        Log.d("wew",avatarURL);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
