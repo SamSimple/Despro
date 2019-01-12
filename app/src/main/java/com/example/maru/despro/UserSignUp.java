@@ -25,7 +25,7 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
 
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-    String Verified,Bedroom = " ",Kitchen = " ",LivingRoom = " ",Toilet = " ",Emergency = " ";
+    String Verified,Bedroom = " ",Kitchen = " ",LivingRoom = " ",Toilet = " ",Emergency = " ",Uri ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class UserSignUp extends AppCompatActivity implements View.OnClickListene
                     if (task.isSuccessful()) {
                         firebaseAuth.getCurrentUser().reload();
                         Verified = String.valueOf(firebaseAuth.getCurrentUser().isEmailVerified());
-                        User user = new User(Name, Age, CpNum, emailAdd, Password,Verified);
+                        User user = new User(Name, Age, CpNum, emailAdd, Password,Uri,Verified);
 
                         FirebaseDatabase.getInstance().getReference("Users").child(emailAdd.replace(".", ",")).child("PersonalInformation")
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

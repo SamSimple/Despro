@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class LineFollowerActivity extends AppCompatActivity {
+public class LineFollowerActivity extends BaseActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mRef = database.getReference("Users");
     String uName;
@@ -35,7 +37,11 @@ public class LineFollowerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_line_follower);
+        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
+        getLayoutInflater().inflate(R.layout.activity_line_follower, contentFrameLayout);
+        NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+
         uName = getIntent().getStringExtra("UserName");
         ImageAdapter adapter = new ImageAdapter(this, web, imageId);
         GridView grid = (GridView) findViewById(R.id.gridView);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.share.Share;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String emailAdd;
     String Password;
     String verify;
+    String nAme, cp, email, age,femail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 verify = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Verified").getValue());
-                Log.d("wew",verify);
                 if (TextUtils.isEmpty(emailAdd)) {
                     LogEmail.requestFocus();
                     Toast.makeText(MainActivity.this, "Please Enter Email", Toast.LENGTH_SHORT).show();
@@ -85,16 +87,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
 
                 } else {
-                    progressDialog.setMessage("Logging In...");
-                    progressDialog.show();
+//                    progressDialog.setMessage("Logging In...");
+//                    progressDialog.show();
                     mAuth.signInWithEmailAndPassword(emailAdd, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
+                                mRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        nAme = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Name").getValue());
+                                        cp = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Cp").getValue());
+                                        age = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Age").getValue());
+                                        email = String.valueOf(dataSnapshot.child(emailAdd.replace(".", ",")).child("PersonalInformation").child("Email").getValue());
+                                        femail = email.replace(".",",");
+                                        SharedPreferences.Editor editor = getSharedPreferences("Information", MODE_PRIVATE).edit();
+                                        editor.putString("name", nAme);
+                                        editor.putString("cp", cp);
+                                        editor.putString("email", femail);
+                                        editor.putString("age", age);
+                                        editor.apply();
+
+                                   }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
                                 Intent intent = new Intent(MainActivity.this, MonitorActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("UserName", emailAdd.replace(".", ","));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 finish();
                                 startActivity(intent);
 
@@ -112,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
 
 
     }
