@@ -82,7 +82,12 @@ public class BaseActivity extends AppCompatActivity {
                         finish();
                         drawerLayout.closeDrawers();
                         break;
-
+                    case R.id.nav_temp:
+                        Intent intent = new Intent(getApplicationContext(), Temperature.class);
+                        startActivity(intent);
+                        finish();
+                        drawerLayout.closeDrawers();
+                        break;
                 }
                 return false;
             }

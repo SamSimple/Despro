@@ -45,6 +45,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".BaseActivity" />
+        <activity android:name=".Temperature"></activity>
     </application>
 
 </manifest>

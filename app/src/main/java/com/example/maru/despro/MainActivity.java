@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 });
 
 
-                                Intent intent = new Intent(MainActivity.this, MonitorActivity.class);
+                                Intent intent = new Intent(MainActivity.this, Temperature.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 finish();
                                 startActivity(intent);
