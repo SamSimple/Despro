@@ -7,24 +7,17 @@
     android:orientation="horizontal"
     tools:context=".MonitorActivity">
 
+
     <Button
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/button1"
+        android:id="@+id/btrecord"
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:drawableRight="@drawable/ic_profile"
-        android:text="Profile" />
-
-
-    <Button
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:drawableRight="@drawable/ic_wc"
-        android:text="Line Follower" />
+        android:layout_marginRight="125dp"
+        android:layout_marginBottom="105dp"
+
+        android:text="View record" />
 <TextView
     android:id="@+id/heartrate"
     android:layout_width="wrap_content"
@@ -36,19 +29,19 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="300dp"
-        android:src="@drawable/temp38"
+        app:srcCompat="@drawable/temp38"
         android:layout_toRightOf="@id/heartrate"/>
      <ImageView
         android:id="@+id/temp"
         android:layout_width="151.7dp"
         android:layout_height="300dp"
-        android:src="@drawable/temp37"
+        app:srcCompat="@drawable/temp37"
         android:layout_toRightOf="@id/heartrate"/>
     <ImageView
         android:id="@+id/mask"
         android:layout_width="151.7dp"
         android:layout_height="300dp"
-        android:src="@drawable/temp36"
+        app:srcCompat="@drawable/temp36"
         android:layout_toRightOf="@id/heartrate"/>
 
     <Button
